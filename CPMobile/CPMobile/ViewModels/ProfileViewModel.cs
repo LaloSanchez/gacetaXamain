@@ -47,7 +47,7 @@ namespace CPMobile.ViewModels
 
         private async Task ExecuteInit ()
         {
-            await cpFeed.Init();
+            //await cpFeed.Init();
         }
 
         private Command getCPFeedCommand;

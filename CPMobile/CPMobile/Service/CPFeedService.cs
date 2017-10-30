@@ -22,7 +22,7 @@ namespace CPMobile.Service
 
         static string clientId = "WRymObjweyg9fj78Z5FV3R-uHeoVt_Oh";
         static string clientSecret = "NQyjvo7N7eN06Xu9nTHm4jRt0X7IZThNwPAKVnp9GBcOZKm89xIOhbeOIQrOXVJj";
-        static string baseUrl = "https://api.codeproject.com/";
+        static string baseUrl = "http://189.211.201.181:75/GazzetaWebservice/";
         
         public CPFeedService()
         {
@@ -31,49 +31,49 @@ namespace CPMobile.Service
 
         public async Task Init()
         {
-            initialized = true;
-            if (!String.IsNullOrEmpty(Settings.AuthToken))
-            {
-                GetArticleAsync(1);
-                return;
-            }
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseUrl);
+            //initialized = true;
+            //if (!String.IsNullOrEmpty(Settings.AuthToken))
+            //{
+            //    GetArticleAsync(1);
+            //    return;
+            //}
+            //using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(baseUrl);
 
-                // We want the response to be JSON.
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                // Build up the data to POST.
-                List<KeyValuePair<string, string>> postData = new List<KeyValuePair<string, string>>();
-                postData.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
-                postData.Add(new KeyValuePair<string, string>("client_id", clientId));
-                postData.Add(new KeyValuePair<string, string>("client_secret", clientSecret));
-                FormUrlEncodedContent content = new FormUrlEncodedContent(postData);
-                // Post to the Server and parse the response.
-                try
-                {
-                    var response = await client.PostAsync("Token", content);
-                    response.EnsureSuccessStatusCode();
-                    string jsonString = response.Content.ReadAsStringAsync().Result;
-                    CPAuthToken responseData = JsonHelper.Deserialize<CPAuthToken>(jsonString);
+            //    // We want the response to be JSON.
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //    // Build up the data to POST.
+            //    List<KeyValuePair<string, string>> postData = new List<KeyValuePair<string, string>>();
+            //    postData.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
+            //    postData.Add(new KeyValuePair<string, string>("client_id", clientId));
+            //    postData.Add(new KeyValuePair<string, string>("client_secret", clientSecret));
+            //    FormUrlEncodedContent content = new FormUrlEncodedContent(postData);
+            //    // Post to the Server and parse the response.
+            //    try
+            //    {
+            //        var response = await client.PostAsync("Token", content);
+            //        response.EnsureSuccessStatusCode();
+            //        string jsonString = response.Content.ReadAsStringAsync().Result;
+            //        CPAuthToken responseData = JsonHelper.Deserialize<CPAuthToken>(jsonString);
 
-                    Settings.AuthToken = responseData.access_token;
+            //        Settings.AuthToken = responseData.access_token;
                     
-                    GetArticleAsync(1);
-                    // return the Access Token.
-                    //return responseData.ToString();
-                }
-                catch (Exception ex)
-                {
+            //        GetArticleAsync(1);
+            //        // return the Access Token.
+            //        //return responseData.ToString();
+            //    }
+            //    catch (Exception ex)
+            //    {
 
-                    initialized = false;
-                }
+            //        initialized = false;
+            //    }
 
-            }
+            //}
         }
 
-        public async Task<CPFeed> GetArticleAsync(int page)
+        public async Task<CPFeed> GetArticleAsync(int page, int cveCategoria)
         {
             if (!initialized)
                 await Init();
@@ -92,15 +92,16 @@ namespace CPMobile.Service
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
                     // create the URL string.
-                    string url = string.Format("v1/Articles?page={0}", page);
+                    string url = string.Format("api/tblnoticias/categoria/{0}", cveCategoria);
 
                     // make the request
                     HttpResponseMessage response = await client.GetAsync(url);
 
                     // parse the response and return the data.
                     string jsonString = await response.Content.ReadAsStringAsync();
+                    string jsonArmado = "{'items':" + jsonString + "}";
 
-                    CPFeed responseData = JsonHelper.Deserialize<CPFeed>(jsonString);
+                    CPFeed responseData = JsonHelper.Deserialize<CPFeed>(jsonArmado);                    Debug.WriteLine(responseData);
                     await BlobCache.LocalMachine.InsertObject<CPFeed>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
                     return responseData;
                 }
@@ -111,6 +112,65 @@ namespace CPMobile.Service
                 return null;
             }
         }
+
+        public async Task<string> GetCategorias()
+        {
+
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // Add the Authorization header with the AccessToken.
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " );
+
+                    // create the URL string.
+                    string url = string.Format("api/tblcategorias", "");
+
+                    // make the request
+                HttpResponseMessage response = await client.GetAsync(url);
+
+                    // parse the response and return the data.
+                string jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string jsonArmado = "{\"Categos\":"+jsonString+"}";
+                    Debug.WriteLine(jsonArmado);
+                    jsonArmado = "{'Categos':[{'$id':'1','cveCategoria':1,'descCategoria':'COMUNIDAD','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'},{'$id':'2','cveCategoria':2,'descCategoria':'CULTURA','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'},{'$id':'3','cveCategoria':3,'descCategoria':'ACADEMIA','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'},{'$id':'4','cveCategoria':4,'descCategoria':'DEPORTES','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'}]}";
+                    CPFeedCat responseData = JsonHelper.Deserialize<CPFeedCat>(jsonArmado);
+                    //await BlobCache.LocalMachine.InsertObject<CPFeedCat>("DefaultCategory", responseData, DateTimeOffset.Now.AddDays(1));
+                return jsonArmado;
+                }
+        }
+
+        //public string GetCate(){
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(baseUrl);
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        //        // Add the Authorization header with the AccessToken.
+        //        client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
+
+        //        // create the URL string.
+        //        string url = string.Format("api/tblcategorias", "");
+
+        //        // make the request
+        //        var response = client.GetAsync(url).Result();
+
+        //        // parse the response and return the data.
+        //        string jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        //        string jsonArmado = "{\"Categos\":" + jsonString + "}";
+        //        Debug.WriteLine(jsonArmado);
+        //        jsonArmado = "{'Categos':[{'$id':'1','cveCategoria':1,'descCategoria':'COMUNIDAD','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'},{'$id':'2','cveCategoria':2,'descCategoria':'CULTURA','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'},{'$id':'3','cveCategoria':3,'descCategoria':'ACADEMIA','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'},{'$id':'4','cveCategoria':4,'descCategoria':'DEPORTES','activo':'S','fechaRegistro':'2017-10-26T23:11:23','fechaActualizacion':'2017-10-26T23:11:23'}]}";
+        //        CPFeedCat responseData = JsonHelper.Deserialize<CPFeedCat>(jsonArmado);
+        //        //await BlobCache.LocalMachine.InsertObject<CPFeedCat>("DefaultCategory", responseData, DateTimeOffset.Now.AddDays(1));
+        //        return jsonArmado;
+        //    }
+        //    return "";
+        //}
+       
 
         public async Task<CPFeed> GetForumAsync(int tag)
         {
@@ -227,7 +287,7 @@ namespace CPMobile.Service
                     MyProfile responseData = JsonHelper.Deserialize<MyProfile>(jsonString);
 
 
-                    //await BlobCache.LocalMachine.InsertObject<MyProfile>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
+                    await BlobCache.LocalMachine.InsertObject<MyProfile>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
                     // await dataStorageService.Save_Value("MyProfile", responseData);
 
                     return responseData;
@@ -247,9 +307,9 @@ namespace CPMobile.Service
         /// <returns>The page of articles.</returns>
         public async Task<CPFeed> MyArticles(int page)
         {
-            var loginToken = Settings.AuthLoginToken;
-            if (!string.IsNullOrEmpty(loginToken))
-            {
+            //var loginToken = Settings.AuthLoginToken;
+            //if (!string.IsNullOrEmpty(loginToken))
+            //{
 
                 using (var client = new HttpClient())
                 {
@@ -258,7 +318,7 @@ namespace CPMobile.Service
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     // Add the Authorization header with the AccessToken.
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + loginToken);
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
 
                     // create the URL string.
                     string url = string.Format("v1/My/Articles?page={0}", page);
@@ -273,12 +333,12 @@ namespace CPMobile.Service
                     
                     return responseData;
                 }
-            }
-            else
-            {
+            //}
+            //else
+            //{
 
-                return null;
-            }
+            //    return null;
+            //}
         }
 
         public async Task<CPFeed> MyMessage(int page)
@@ -391,41 +451,7 @@ namespace CPMobile.Service
             }
         }
 
-        public async Task<CPFeed> MyComments(int page)
-        {
-            var loginToken = Settings.AuthLoginToken;
-            if (!string.IsNullOrEmpty(loginToken))
-            {
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(baseUrl);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    // Add the Authorization header with the AccessToken.
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + loginToken);
-
-                    // create the URL string.
-                    string url = string.Format("v1/My/questions?page={0}", page);
-
-                    // make the request
-                    HttpResponseMessage response = await client.GetAsync(url);
-
-                    // parse the response and return the data.
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    CPFeed responseData = JsonHelper.Deserialize<CPFeed>(jsonString);
-                    await BlobCache.LocalMachine.InsertObject<CPFeed>("MyComments", responseData, DateTimeOffset.Now.AddDays(3));
-
-                    return responseData;
-                }
-            }
-            else
-            {
-
-                return null;
-            }
-        }
+       
 
     }
 }

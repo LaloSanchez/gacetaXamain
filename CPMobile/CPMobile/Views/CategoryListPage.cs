@@ -5,13 +5,13 @@ using System.Diagnostics;
 
 namespace CPMobile.Views
 {
-    public class ArticleListPage:ContentView
+    public class CategoryListPage : ContentView
     {
-        ArticleViewModel articleViewModel;
-        public ArticleListPage(int cveCategoria)
+        CategoryViewModel categoriaViewModel;
+        public CategoryListPage()
         {
-            articleViewModel = new ArticleViewModel(cveCategoria);
-           articleViewModel.GetCPFeedCommand.Execute(null);
+            categoriaViewModel = new CategoryViewModel();
+            categoriaViewModel.GetCPFeedCommand.Execute(null);
             var activityIndicator = new ActivityIndicator
             {
                 Color = Color.White,
@@ -22,31 +22,31 @@ namespace CPMobile.Views
             {
                 HasUnevenRows = false,
                 ItemTemplate = new DataTemplate(typeof(CPListCell)),
-                ItemsSource = articleViewModel.Articles,
+                ItemsSource = categoriaViewModel.Categorias,
                 BackgroundColor = Color.White,
-                RowHeight=120,
+                RowHeight = 120,
             };
-           
+
             //vetlist.SetBinding<ArticlePageViewModel>();
-             Content = new StackLayout
+            Content = new StackLayout
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 BackgroundColor = Color.White,
-                Children = { genralArticlelist  }
+                Children = { genralArticlelist }
             };
 
-             genralArticlelist.ItemSelected += (sender, e) =>
-             {
-                 var selectedObject = e.SelectedItem as CPMobile.Models.Item;
+            genralArticlelist.ItemSelected += (sender, e) =>
+            {
+                var selectedObject = e.SelectedItem as CPMobile.Models.Item;
                 var SingleArticleView = new SingleArticleView(selectedObject);
-                 //var WebViewPage = new WebViewPage("General Articles",string.Format("http:{0}",selectedObject.websiteLink));
+                //var WebViewPage = new WebViewPage("General Articles",string.Format("http:{0}",selectedObject.websiteLink));
                 Navigation.PushAsync(SingleArticleView);
                 // Navigation.PushAsync( );
-             };
-           
+            };
+
         }
 
-      
+
     }
 }

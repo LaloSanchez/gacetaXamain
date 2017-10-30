@@ -43,12 +43,13 @@ namespace CPMobile.Views
             {
               
                 case CarouselLayout.IndicatorStyleEnum.Tabs:
-                    var tabsHeight = 50;
+                    var tabsHeight = 60;
                     relativeLayout.Children.Add(_tabs,
                         Constraint.Constant(0),
                         Constraint.RelativeToParent((parent) => { return parent.Height - tabsHeight; }),
-                        Constraint.RelativeToParent(parent => parent.Width),
+                                                Constraint.RelativeToParent(parent => parent.Width),
                         Constraint.Constant(tabsHeight)
+
                     );
 
                     relativeLayout.Children.Add(pagesCarousel,

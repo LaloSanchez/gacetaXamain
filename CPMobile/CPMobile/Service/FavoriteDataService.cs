@@ -43,7 +43,7 @@ namespace CPMobile.Service
         public static async void DeleteFavorite(Item item)
         {
             favListItems = await GetFavListHistory();
-            favListItems.RemoveAll(i => i.id == item.id);
+            favListItems.RemoveAll(i => i.idNoticia == item.idNoticia);
             await BlobCache.LocalMachine.InsertObject<List<Item>>("Favorite", favListItems, DateTimeOffset.Now.AddDays(30));
         }
 

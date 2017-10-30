@@ -18,45 +18,48 @@ namespace CPMobile
             };
             titleLabel.FontSize = Device.OnPlatform(
                                                         Device.GetNamedSize(NamedSize.Small, titleLabel),
-                                                        18,
+                                                        15,
                                                         Device.GetNamedSize(NamedSize.Small, titleLabel)
                                                     );
-            titleLabel.SetBinding(Label.TextProperty, "title");
+            titleLabel.SetBinding(Label.TextProperty, "titulo");
 
             var discriptionLabel = new Label()
             {
                 FontAttributes = FontAttributes.Bold,
-                FontSize = 12,
+                FontSize = 11,
                 TextColor = Color.FromHex("#666")
             };
-            discriptionLabel.SetBinding(Label.TextProperty, "summary");
+            discriptionLabel.SetBinding(Label.TextProperty, "contenido");
 
 
-            var starLabel = new Label()
+
+
+            var ImagenPrincipal = new Image()
             {
-                FontSize = 12,
-                TextColor = Color.Gray
+                AnchorX = 0,
+                HeightRequest = 100,
+                WidthRequest =100,
+                VerticalOptions = LayoutOptions.CenterAndExpand 
             };
-            starLabel.SetBinding(Label.TextProperty, "rating");
-
-            var starImage = new Image()
-            {
-                Source = "star.png",
-                HeightRequest = 12,
-                WidthRequest = 12
-            };
-
-            var ratingStack = new StackLayout()
-            {
-                Spacing = 3,
-                Orientation = StackOrientation.Horizontal,
-                Children = { starImage, starLabel }
-            };
-
+            ImagenPrincipal.SetBinding(Image.SourceProperty, "url_imagen");
+            
             var statusLayout = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Children = { discriptionLabel }
+            };
+
+            var textLayout = new StackLayout
+            {
+                Orientation = StackOrientation.Vertical,
+                Children = { titleLabel,statusLayout }
+            };
+
+            var generalStack = new StackLayout()
+            {
+                Spacing = 3,
+                Orientation = StackOrientation.Horizontal,
+                Children = { ImagenPrincipal,textLayout }
             };
 
             var vetDetailsLayout = new StackLayout
@@ -64,9 +67,8 @@ namespace CPMobile
                 Padding = new Thickness(10, 0, 0, 0),
                 Spacing = 0,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                Children = { titleLabel, statusLayout, ratingStack }
+                Children = { generalStack }
             };
-
 
             //------ Creating Contact Action 1 Start --------//
             var moreAction = new MenuItem { Text = "Favorite"};

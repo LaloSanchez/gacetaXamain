@@ -114,6 +114,11 @@
     <Compile Include="Views\MenuPage.cs" />
     <Compile Include="Models\ILoginManager.cs" />
     <Compile Include="Views\WebViewPage.cs" />
+    <Compile Include="Views\GaleryPage.cs" />
+    <Compile Include="Views\SingleArticleView.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="Views\CategoryListPage.cs" />
+    <Compile Include="ViewModels\CategoryPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akavache, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">

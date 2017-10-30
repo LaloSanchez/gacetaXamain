@@ -20,17 +20,17 @@ namespace CPMobile.Views
 
             this.rootPage = rootPage;
 
-            var logoutButton = new Button { Text = "Salir", TextColor=Color.White };
-            logoutButton.Clicked += (sender, e) =>
-            {
-                Settings.AuthLoginToken = "";
+            //var logoutButton = new Button { Text = "Salir", TextColor=Color.White };
+            //logoutButton.Clicked += (sender, e) =>
+            //{
+            //    Settings.AuthLoginToken = "";
                 
-                Navigation.PushModalAsync(new LoginPage());
+            //    Navigation.PushModalAsync(new LoginPage());
 
-                //Special Handel for Android Back button
-                if (Device.OS == TargetPlatform.Android)
-                Application.Current.MainPage = new LoginPage();
-            };
+            //    //Special Handel for Android Back button
+            //    if (Device.OS == TargetPlatform.Android)
+            //    Application.Current.MainPage = new LoginPage();
+            //};
             var layout = new StackLayout
             {
                 Spacing = 0,
@@ -39,6 +39,7 @@ namespace CPMobile.Views
             };
             var section = new TableSection()
             {
+                new MenuCell {Text = "Gaceta UAQ",Host= this,ImageSrc="icon.png"},
                 new MenuCell {Text = "Inicio",Host= this,ImageSrc="home_black.png"},
                 new MenuCell {Text = "Galeria",Host= this,ImageSrc="star_black.png"},
                 new MenuCell {Text = "Anteriores",Host= this,ImageSrc="home_black.png"},
@@ -56,7 +57,7 @@ namespace CPMobile.Views
 
             };
 
-            var settingView = new SettingsUserView();
+            //var settingView = new SettingsUserView();
 
             //settingView.tapped += (object sender, TapViewEventHandler e) =>
             //{
@@ -66,30 +67,30 @@ namespace CPMobile.Views
             //    // rootPage.Detail = home;
             //};
 
-            layout.Children.Add(settingView);
+            //layout.Children.Add(settingView);
             //layout.Children.Add(new BoxView()
             //{
             //    HeightRequest = 1,
             //    BackgroundColor = AppStyle.DarkLabelColor,
             //});
             layout.Children.Add(tableView);
-            layout.Children.Add(logoutButton);
+            //layout.Children.Add(logoutButton);
 
             Content = layout;
 
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped +=
-                (sender, e) =>
-                {
-                    NavigationPage profile = new NavigationPage(new Profile(settingView.profileViewModel.myProfile)) { BarBackgroundColor = App.BrandColor,BarTextColor = Color.White };
-                    rootPage.Detail = profile;
-                    rootPage.IsPresented = false;
-                };
-            settingView.GestureRecognizers.Add(tapGestureRecognizer);
+            //var tapGestureRecognizer = new TapGestureRecognizer();
+            //tapGestureRecognizer.Tapped +=
+            //    (sender, e) =>
+            //    {
+            //        NavigationPage profile = new NavigationPage(new Profile(settingView.profileViewModel.myProfile)) { BarBackgroundColor = App.BrandColor,BarTextColor = Color.White };
+            //        rootPage.Detail = profile;
+            //        rootPage.IsPresented = false;
+            //    };
+            //settingView.GestureRecognizers.Add(tapGestureRecognizer);
  
         }
 
-        NavigationPage home, About, favorites;
+        NavigationPage home, galery,About, favorites;
         public void Selected(string item)
         {
 
@@ -99,6 +100,11 @@ namespace CPMobile.Views
                     if (home == null)
                         home = new NavigationPage(new MainListPage()) { BarBackgroundColor = App.BrandColor, BarTextColor = Color.White };
                     rootPage.Detail = home;
+                    break;
+                case "Galeria":
+                    if (galery == null)
+                        galery = new NavigationPage(new GaleryPage()) { BarBackgroundColor = App.BrandColor, BarTextColor = Color.White };
+                    rootPage.Detail = galery;
                     break;
                 case "Anteriores":
                     favorites = new NavigationPage(new FavoriteListPage()) { BarBackgroundColor = App.BrandColor, BarTextColor = Color.White };

@@ -9,12 +9,20 @@ namespace CPMobile.Models
         Message,
         Tips,
         TechBlog,
-        Comments
+        Comments,
+        Categoria
     }
+
+
     public class CPFeed
     {
         public Pagination pagination { get; set; }
         public List<Item> items { get; set; }
+    }
+
+    public class CPFeedCat
+    {
+        public List<Categoria> Categos { get; set; }
     }
 
     public class Pagination
@@ -43,6 +51,13 @@ namespace CPMobile.Models
         public int id { get; set; }
     }
 
+    public class Categoria
+    {
+        public string desCategoria { get; set; }
+        public string activo { get; set; }
+        public int cveCategoria { get; set; }
+    }
+
     public class Tag
     {
         public string name { get; set; }
@@ -63,34 +78,31 @@ namespace CPMobile.Models
 
     public class Item
     {
-        public string id { get; set; }
-        public string title { get; set; }
-        public List<Author> authors { get; set; }
+        public string idNoticia { get; set; }
+        public string contenido { get; set; }
+        public string titulo { get; set; }
 
-        private string _summary = string.Empty;
-        public string summary
-        {
-            get
-            {
-                return  _summary;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                    _summary = value.ToString().Truncate(150);
-                else
-                    _summary = value;
-            }
-        }
-        public string contentType { get; set; }
-        public DocType docType { get; set; }
-        public List<Category> categories { get; set; }
-        public List<Tag> tags { get; set; }
-        public License license { get; set; }
-        public string createdDate { get; set; }
-        public string modifiedDate { get; set; }
-        public ThreadEditor threadEditor { get; set; }
-        public string threadModifiedDate { get; set; }
+        //private string _resumen = string.Empty;
+        //public string resumen
+        //{
+        //    get
+        //    {
+        //        return  resumen;
+        //    }
+        //    set
+        //    {
+        //        if (contenido != "")
+        //        {
+        //            resumen = contenido.ToString().Truncate(150);
+        //        }else{
+        //            resumen = "";
+        //        }
+        //    }
+        //}
+        public string autor { get; set; }
+        public string cveCategoria { get; set; }
+        public string url_imagen { get; set; }
+       
 
 
         public double rating { get; set; }
@@ -102,4 +114,5 @@ namespace CPMobile.Models
         public int threadId { get; set; }
         public int indentLevel { get; set; }
     }
+
 }

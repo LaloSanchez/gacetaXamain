@@ -32,7 +32,7 @@ namespace CPMobile.ViewModels
 
         private async Task ExecuteInit()
         {
-            await cpFeed.Init();
+            //await cpFeed.Init();
         }
 
         private Command getAuthorDataCommand;
@@ -49,82 +49,82 @@ namespace CPMobile.ViewModels
 
         private async Task ExecuteGetAuthorDataCommand()
         {
-            if (IsBusy)
-                return;
+            //if (IsBusy)
+            //    return;
 
-            IsBusy = true;
+            //IsBusy = true;
 
-            GetAuthorDataCommand.ChangeCanExecute();
+            //GetAuthorDataCommand.ChangeCanExecute();
 
-            try
-            {
-                CPFeed authorDataFeed = null;
-                switch(authorDataType)
-                {
-                    case AuthorDataType.Article:
-                        {
-                            authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyArticle",
-                                                                                            async () => await cpFeed.MyArticles(1),
-                                                                                            DateTimeOffset.Now.AddDays(3)
-                                                                                        );
-                            // I dont like this but let it be
-                            await BlobCache.LocalMachine.InsertObject<string>("AuthorArticles", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
-                            break;
-                        }
-                    case AuthorDataType.Message:
-                        {
-                            authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyMessage",
-                                                                                           async () => await cpFeed.MyMessage(1),
-                                                                                           DateTimeOffset.Now.AddDays(3)
-                                                                                       );
-                            await BlobCache.LocalMachine.InsertObject<string>("AuthorMessages", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
+            //try
+            //{
+            //    CPFeed authorDataFeed = null;
+            //    switch(authorDataType)
+            //    {
+            //        case AuthorDataType.Article:
+            //            {
+            //                authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyArticle",
+            //                                                                                async () => await cpFeed.MyArticles(1),
+            //                                                                                DateTimeOffset.Now.AddDays(3)
+            //                                                                            );
+            //                // I dont like this but let it be
+            //                await BlobCache.LocalMachine.InsertObject<string>("AuthorArticles", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
+            //                break;
+            //            }
+            //        case AuthorDataType.Message:
+            //            {
+            //                authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyMessage",
+            //                                                                               async () => await cpFeed.MyMessage(1),
+            //                                                                               DateTimeOffset.Now.AddDays(3)
+            //                                                                           );
+            //                await BlobCache.LocalMachine.InsertObject<string>("AuthorMessages", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
 
-                            break;
-                        }
-                    case AuthorDataType.Comments:
-                        {
-                            authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyComments",
-                                                                                           async () => await cpFeed.MyComments(1),
-                                                                                           DateTimeOffset.Now.AddDays(3)
-                                                                                       );
-                            await BlobCache.LocalMachine.InsertObject<string>("AuthorComments", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
+            //                break;
+            //            }
+            //        case AuthorDataType.Comments:
+            //            {
+            //                authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyComments",
+            //                                                                               async () => await cpFeed.MyComments(1),
+            //                                                                               DateTimeOffset.Now.AddDays(3)
+            //                                                                           );
+            //                await BlobCache.LocalMachine.InsertObject<string>("AuthorComments", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
 
-                            break;
-                        }
-                    case AuthorDataType.Tips:
-                        {
+            //                break;
+            //            }
+            //        case AuthorDataType.Tips:
+            //            {
                             
-                            authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyTips",
-                                                                                           async () => await cpFeed.MyTips(1),
-                                                                                           DateTimeOffset.Now.AddDays(3)
-                                                                                       );
-                            await BlobCache.LocalMachine.InsertObject<string>("AuthorTips", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
+            //                authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyTips",
+            //                                                                               async () => await cpFeed.MyTips(1),
+            //                                                                               DateTimeOffset.Now.AddDays(3)
+            //                                                                           );
+            //                await BlobCache.LocalMachine.InsertObject<string>("AuthorTips", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
 
-                            break;
-                        }
-                    case AuthorDataType.TechBlog:
-                        {
+            //                break;
+            //            }
+            //        case AuthorDataType.TechBlog:
+            //            {
                           
-                            authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyBlogs",
-                                                                                           async () => await cpFeed.MyBlogs(1),
-                                                                                           DateTimeOffset.Now.AddDays(3)
-                                                                                       );
-                            await BlobCache.LocalMachine.InsertObject<string>("AuthorBlogs", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
+            //                authorDataFeed = await BlobCache.LocalMachine.GetOrFetchObject<CPFeed>("MyBlogs",
+            //                                                                               async () => await cpFeed.MyBlogs(1),
+            //                                                                               DateTimeOffset.Now.AddDays(3)
+            //                                                                           );
+            //                await BlobCache.LocalMachine.InsertObject<string>("AuthorBlogs", authorDataFeed.pagination.totalItems.ToString(), DateTimeOffset.Now.AddDays(3));
 
-                            break;
-                        }
-                }
+            //                break;
+            //            }
+            //    }
 
-                foreach (var article in authorDataFeed.items)
-                {
-                    AutorItems.Add(article);
-                }
-                IsBusy = false;
-            }
-            catch (Exception ex)
-            {
+            //    foreach (var article in authorDataFeed.items)
+            //    {
+            //        AutorItems.Add(article);
+            //    }
+            //    IsBusy = false;
+            //}
+            //catch (Exception ex)
+            //{
 
-            }
+            //}
         }
     }
 }

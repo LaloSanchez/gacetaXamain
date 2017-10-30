@@ -41,7 +41,7 @@ namespace CPMobile
                     Orientation = StackOrientation.Vertical,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
-                    Padding = new Thickness(7),
+                    Padding = new Thickness(2),
                 };
                 Device.OnPlatform(
                     iOS: () =>

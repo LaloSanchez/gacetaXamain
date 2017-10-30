@@ -5,21 +5,17 @@ using System.Diagnostics;
 
 namespace CPMobile.ViewModels
 {
-    public class ArticlePageViewModel :ICarouselViewModel
+    public class CategoryPageViewModel : ICarouselViewModel
     {
-        public int cveCategoria;
-        public ArticlePageViewModel(int cveCateg){
-            cveCategoria = cveCateg;
-        }
-
+       
         public ContentView View
         {
-            get { return new ArticleListPage(cveCategoria); }
+            get { return new CategoryListPage(); }
         }
 
 
         public string TabText
-            { get; set; }
+        { get; set; }
 
         public string TabIcon
         {
