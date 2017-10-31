@@ -23,10 +23,7 @@ namespace CPMobile.ViewModels
 
         public string TabIcon
         {
-            get
-            {
-                return "article.png";
-            }
+            get; set;
         }
     }
 }

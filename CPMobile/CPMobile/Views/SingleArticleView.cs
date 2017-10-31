@@ -12,7 +12,7 @@ namespace CPMobile.Views
             {
 
                 Children = {
-                    new Image { Source = "http://tutrip.4hserver.com/images/img1.jpg"},//objArticle.url_imagen },
+                    new Image { Source = objArticle.url_imagen,VerticalOptions = LayoutOptions.Start},//objArticle.url_imagen },
                     new Label { Text = objArticle.titulo,FontSize=14},
                     new Label {Text = objArticle.contenido,FontSize=10},
                 }

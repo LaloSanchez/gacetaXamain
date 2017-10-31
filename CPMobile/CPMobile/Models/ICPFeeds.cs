@@ -11,6 +11,8 @@ namespace CPMobile.Models
 
         Task<CPFeed> GetForumAsync();
 
+        Task<CPFeedGalery> GetGaleryAsync();
+
         Task<bool> GetAccessToken(string username, string password);
 
         Task<string> GetCategorias();

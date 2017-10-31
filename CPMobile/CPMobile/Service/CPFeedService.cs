@@ -22,7 +22,7 @@ namespace CPMobile.Service
 
         static string clientId = "WRymObjweyg9fj78Z5FV3R-uHeoVt_Oh";
         static string clientSecret = "NQyjvo7N7eN06Xu9nTHm4jRt0X7IZThNwPAKVnp9GBcOZKm89xIOhbeOIQrOXVJj";
-        static string baseUrl = "http://189.211.201.181:75/GazzetaWebservice/";
+        static string baseUrl = "http://189.211.201.181:75/GazzetaWebservice2/";
         
         public CPFeedService()
         {
@@ -127,7 +127,7 @@ namespace CPMobile.Service
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " );
 
                     // create the URL string.
-                    string url = string.Format("api/tblcategorias", "");
+                    string url = string.Format("api/tblgaleria", "");
 
                     // make the request
                 HttpResponseMessage response = await client.GetAsync(url);
@@ -142,6 +142,37 @@ namespace CPMobile.Service
                 return jsonArmado;
                 }
         }
+
+        public async Task<CPFeedGalery> GetGaleryAsync()
+        {
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Add the Authorization header with the AccessToken.
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
+
+                // create the URL string.
+                string url = string.Format("api/tblgaleria", "");
+
+                // make the request
+                Debug.WriteLine("url: " + url);
+                HttpResponseMessage response = await client.GetAsync(url);
+                Debug.WriteLine("response: " + response);
+                // parse the response and return the data.
+                string jsonString = await response.Content.ReadAsStringAsync();
+
+                string jsonArmado = "{\"itemsGalery\":" + jsonString + "}";
+                Debug.WriteLine(jsonArmado);
+                CPFeedGalery responseData = JsonHelper.Deserialize<CPFeedGalery>(jsonArmado);
+                //await BlobCache.LocalMachine.InsertObject<CPFeedGalery>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
+                return responseData;
+            }
+        }
+
 
         //public string GetCate(){
         //    using (var client = new HttpClient())

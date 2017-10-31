@@ -119,6 +119,8 @@
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="Views\CategoryListPage.cs" />
     <Compile Include="ViewModels\CategoryPageViewModel.cs" />
+    <Compile Include="ViewModels\GaleryViewModel.cs" />
+    <Compile Include="Style\GaleryList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akavache, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">

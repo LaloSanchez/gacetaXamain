@@ -19,7 +19,7 @@ namespace CPMobile.ViewModels
         {
             cpFeed = DependencyService.Get<ICPFeeds>();
             Categorias = new List<Categoria>();
-            string jsonResp ;
+            jsonResp = "";
 
         }
 
@@ -34,6 +34,7 @@ namespace CPMobile.ViewModels
         }
 
         private Command getCPFeedCommand;
+
         public Command GetCPFeedCommand
         {
             get
@@ -55,8 +56,9 @@ namespace CPMobile.ViewModels
 
             try
             {
-                var cat = await cpFeed.GetCategorias();
+                var cat =await cpFeed.GetCategorias().ConfigureAwait(true);
                 jsonResp = cat;
+               
                 //Debug.WriteLine(categos.Categos);
                 //foreach (var categoria in categos.Categos)
                 //{

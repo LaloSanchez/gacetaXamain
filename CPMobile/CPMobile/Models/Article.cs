@@ -20,6 +20,19 @@ namespace CPMobile.Models
         public List<Item> items { get; set; }
     }
 
+    public class Galery
+    {
+        public int idGaleria { set; get; }
+        public string url_imagen { set; get; }
+        public string titulo { set; get; }
+        public string descripcion { set; get; }
+        public string activo { set; get; }
+    }
+    public class CPFeedGalery
+    {
+        public List<Galery> itemsGalery { get; set; }
+    }
+
     public class CPFeedCat
     {
         public List<Categoria> Categos { get; set; }
@@ -79,29 +92,45 @@ namespace CPMobile.Models
     public class Item
     {
         public string idNoticia { get; set; }
-        public string contenido { get; set; }
+        public string contenido { 
+            get
+            {
+                return _contenido;
+            }
+            set
+            {
+                _contenido =  value.ToString();
+            }
+        }
         public string titulo { get; set; }
+        public string _contenido;
+        public string resumen {
+            get
+            {
+                return contenido.ToString().Truncate(150)+"...";
+            }
+            set
+            {
+                _contenido = value;
+            }
+        }
 
-        //private string _resumen = string.Empty;
-        //public string resumen
-        //{
-        //    get
-        //    {
-        //        return  resumen;
-        //    }
-        //    set
-        //    {
-        //        if (contenido != "")
-        //        {
-        //            resumen = contenido.ToString().Truncate(150);
-        //        }else{
-        //            resumen = "";
-        //        }
-        //    }
-        //}
+        private string _url_imagen = string.Empty;
+        public string url_imagen
+        {
+            get
+            {
+                return  _url_imagen;
+            }
+            set
+            {
+                _url_imagen = "http://189.211.201.181:75/" +value.ToString();
+            }
+        }
+
         public string autor { get; set; }
         public string cveCategoria { get; set; }
-        public string url_imagen { get; set; }
+        //public string url_imagen { get; set{return "http://189.211.201.181:75/" +url_imagen} }
        
 
 

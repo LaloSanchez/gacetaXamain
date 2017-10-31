@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Newtonsoft.Json;
-using System.IO;
 using Xamarin;
+using System.IO;
+using System.ComponentModel;
 using System.Net;
+using System.Net.Http;
+using Akavache.Internal;
+
+using CPMobile.ViewModels;
+
 namespace CPMobile.Views
 {
     public class GaleryPage : ContentPage
     {
+        GaleryViewModel GaleryViewModel;
         public GaleryPage()
         {
+            GaleryViewModel = new GaleryViewModel();
+            GaleryViewModel.GetCPFeedCommand.Execute(null);
+
             Padding = new Thickness(0);
             NavigationPage.SetHasNavigationBar(this, true);
             BackgroundColor = Color.White;
@@ -62,11 +70,18 @@ namespace CPMobile.Views
 
 
 
-            List<string> developers = new List<string>();
+            /*List<string> developers = new List<string>();
             var data = JsonConvert.DeserializeObject<RootObject>(json);
             var stack = new StackLayout();
             stack.Padding = new Thickness(0, 0, 0, 0);
             stack.Spacing = 0;
+            var profileTapRecognizer = new TapGestureRecognizer
+            {
+                TappedCallback = (v, o) => {
+                    Debug.WriteLine("imagen Click");
+                },
+                NumberOfTapsRequired = 1
+            };
             foreach (var orders in data.data)
             {
                 var imagen = new Image
@@ -81,6 +96,12 @@ namespace CPMobile.Views
                     VerticalOptions = LayoutOptions.End,
                     HorizontalOptions = LayoutOptions.End,
                 };
+                imagen.GestureRecognizers.Add(new TapGestureRecognizer{
+                    TappedCallback = (v, o) => {
+                        confirmarDescarga(orders.url_galeria);
+                    },
+                    NumberOfTapsRequired = 1
+                });
                 var labelTitulo = new Label
                 {
                     Text = orders.titulo,
@@ -95,20 +116,71 @@ namespace CPMobile.Views
                 stack.Children.Add(imagen);
                 stack.Children.Add(labelTitulo);
                 stack.Children.Add(labelDescripcion);
-                var tapGestureRecognizer = new TapGestureRecognizer();
-                tapGestureRecognizer.Tapped += (s, e) => {
-                    imagen.Opacity = .5;
-                };
-                imagen.GestureRecognizers.Add(tapGestureRecognizer);
             }
             var scroll = new ScrollView { Content = stack };
+            */
+            var GeneralGaleryList = new ListView
+            {
+                HasUnevenRows = false,
+                ItemTemplate = new DataTemplate(typeof(GaleryList)),
+                ItemsSource = GaleryViewModel.Galery,
+                BackgroundColor = Color.White
+            };
             Content = new StackLayout
             {
                 Spacing = 0,
-                Children = { scroll }
+                Children = { GeneralGaleryList }
             };
+        }
+
+        private async Task<long> DownloadFile(string url)
+        {
+            Debug.WriteLine("entro a la descarga");
+            long receivedBytes = 0;
+            long totalBytes = 0;
+            HttpClient client = new HttpClient();
+
+            using (var stream = await client.GetStreamAsync(url))
+            {
+                byte[] buffer = new byte[4096];
+                totalBytes = stream.Length;
+
+                for (;;)
+                {
+                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    if (bytesRead == 0)
+                    {
+                        await Task.Yield();
+                        break;
+                    }
+
+                    receivedBytes += bytesRead;
+
+                    int received = unchecked((int)receivedBytes);
+                    int total = unchecked((int)totalBytes);
+
+                    double percentage = ((float)received) / total;
+
+                    //progressBar1.Progress = percentage;
+                }
+            }
+
+            return receivedBytes;
+        }
 
 
+        public async void confirmarDescarga(string liga)
+        {
+            var answerDescarga = await DisplayAlert("Descargar", "Deseas descargar la Imagen?", "Si", "No");
+            if (answerDescarga)
+            {
+                Debug.WriteLine("dijo si");
+                DownloadFile(liga);
+            }
+            else
+            {
+                Debug.WriteLine("dijo no");
+            }
         }
     }
 }

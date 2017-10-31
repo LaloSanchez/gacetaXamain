@@ -11,6 +11,7 @@ using System.Diagnostics;
 using CPMobile.Models;
 using System.Reactive.Linq;
 using Xamarin.Forms;
+using CPMobile.ViewModels;
 
 namespace CPMobile.ViewModels
 {
@@ -34,13 +35,26 @@ namespace CPMobile.ViewModels
             categoria = new CategoryViewModel();
 
              categoria.GetCPFeedCommand.Execute(null);
+
             var activityIndicator = new ActivityIndicator
             {
                 Color = Color.White,
             };
+            //while(true){
+            //    var bo = categoria.IsBusy;
+            //    if(!bo){
+            //        break;
+            //    }
+            //}
+            Boolean ocupa = categoria.IsBusy;
             //activityIndicator.SetBinding(IsVisibleProperty, "IsBusy");
             activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
             ca = categoria.jsonResp;
+            //while(true){
+            //    if(!"isBusy"){
+            //        break;
+            //    }
+            //}
             try{
                 foreach (var categ in ca)
                 {
@@ -55,7 +69,23 @@ namespace CPMobile.ViewModels
             var categos = new List<ICarouselViewModel> { };
             for (int i = 1;i<=4;i++){
                 articuloCatego = new ArticlePageViewModel(i);
-                articuloCatego.TabText = "Categoria"+i;  
+                switch(i){
+                    case 1:
+                        articuloCatego.TabText = "COMUNIDAD";
+                        break;
+                    case 2:
+                        articuloCatego.TabText = "CULTURA";
+                        break;
+                    case 3:
+                        articuloCatego.TabText = "ACADEMIA";
+                        break;
+                    case 4:
+                        articuloCatego.TabText = "DEPORTES";
+                        break;
+
+                }
+                articuloCatego.TabIcon = "about.png";
+                //articuloCatego.TabText = "Categoria"+i;  
                 categos.Add(articuloCatego);
             }
 

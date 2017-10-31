@@ -29,10 +29,9 @@ namespace CPMobile
                 FontSize = 11,
                 TextColor = Color.FromHex("#666")
             };
-            discriptionLabel.SetBinding(Label.TextProperty, "contenido");
-
-
-
+            discriptionLabel.SetBinding(Label.TextProperty, "resumen");
+            //discriptionLabel.Text.Substring(0, 10);
+                
 
             var ImagenPrincipal = new Image()
             {
@@ -41,6 +40,7 @@ namespace CPMobile
                 WidthRequest =100,
                 VerticalOptions = LayoutOptions.CenterAndExpand 
             };
+            Debug.WriteLine("url_imagen");
             ImagenPrincipal.SetBinding(Image.SourceProperty, "url_imagen");
             
             var statusLayout = new StackLayout
