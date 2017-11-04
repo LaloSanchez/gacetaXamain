@@ -15,27 +15,34 @@ using CPMobile.ViewModels;
 
 namespace CPMobile.Views
 {
-    public class GaleryPage : ContentPage
+    public class GacetaPdf : ContentPage
     {
-        GaleryViewModel GaleryViewModel;
-        public GaleryPage()
+        GacetaPdfViewModel GacetaPdfViewModel;
+        public GacetaPdf()
         {
-            Title = "Galeria Universitaria";
-            GaleryViewModel = new GaleryViewModel();
-            GaleryViewModel.GetCPFeedCommand.Execute(null);
+            Title = "Gacetas Pdf";
+            GacetaPdfViewModel = new GacetaPdfViewModel();
+            GacetaPdfViewModel.GetCPFeedCommand.Execute(null);
 
             Padding = new Thickness(0);
             NavigationPage.SetHasNavigationBar(this, true);
             BackgroundColor = Color.White;
-            var algo = new DataTemplate(typeof(GaleryList));
+            var algo = new DataTemplate(typeof(GacetasAnteriores));
             var GeneralGaleryList = new ListView
             {
                 HasUnevenRows = false,
-                ItemTemplate = new DataTemplate(typeof(GaleryList)),
-                ItemsSource = GaleryViewModel.Galery,
+                ItemTemplate = new DataTemplate(typeof(GacetasAnteriores)),
+                ItemsSource = GacetaPdfViewModel.GacetaPdf,
                 BackgroundColor = Color.White
             };
-            GeneralGaleryList.RowHeight  = 250;
+            var pick = new Picker
+            {
+            };
+            //foreach(Models.GacetaPdf gaceta in GacetaPdfViewModel.GacetaPdf){
+            //    pick.Items.Add(gaceta.titulo);
+            //}
+
+            GeneralGaleryList.RowHeight = 250;
             Content = new StackLayout
             {
                 Spacing = 0,
@@ -93,19 +100,4 @@ namespace CPMobile.Views
             }
         }
     }
-}
-
-public class Datum
-{
-    public string idGaleria { get; set; }
-    public string url_galeria { get; set; }
-    public string descripcion { get; set; }
-    public string titulo { get; set; }
-}
-
-public class RootObject
-{
-    public int totalCount { get; set; }
-    public string status { get; set; }
-    public List<Datum> data { get; set; }
 }

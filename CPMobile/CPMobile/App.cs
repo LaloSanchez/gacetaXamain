@@ -19,12 +19,12 @@ namespace CPMobile
            // MainPage = new Profile();
             BlobCache.ApplicationName = "Gaseta UAQ";
 
-            var authLoginToken = Settings.AuthLoginToken;
+            //var authLoginToken = Settings.AuthLoginToken;
 
-            if (string.IsNullOrEmpty(authLoginToken))
-                //MainPage = new LoginPage();
-                MainPage = new RootPage();
-            else
+            //if (string.IsNullOrEmpty(authLoginToken))
+            //    //MainPage = new LoginPage();
+            //    MainPage = new RootPage();
+            //else
                 MainPage = new RootPage();
             //var isLoggedIn = Properties.ContainsKey("IsLoggedIn")?(bool)Properties ["IsLoggedIn"]:false;
 

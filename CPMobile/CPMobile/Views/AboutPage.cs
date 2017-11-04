@@ -10,52 +10,83 @@ namespace CPMobile.Views
 {
     public class AboutPage: ContentPage
     {
-        RelativeLayout relativeLayout;
+        public static int fontSize = 14;
         public AboutPage()
         {
-            Padding = new Thickness(20);
             NavigationPage.SetHasNavigationBar(this, true);
             BackgroundColor = Color.White;
 
-
-            var Author = new Label
+            Title = "Acerca de...";
+            var Gaceta = new Label
             {
-                Text = "Desarrollado por Andrade's Company",
+                Text = "Gaceta UAQ",
                 BackgroundColor = Color.White,
-                //Font = Font.SystemFontOfSize(15),
+                FontAttributes = FontAttributes.Bold,
+                XAlign = TextAlignment.Center,
+                FontSize = 22,
                 WidthRequest = 50,
                 HeightRequest = 50
             };
 
-
-            List<string> developers =new List<string>();
-            developers.Add("Paoran Abascal Garcia");
-            developers.Add("Yadira Villa Cruz");
-            relativeLayout = new RelativeLayout
+            var Propietario = new Label
             {
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.FillAndExpand
+                Text = "Propietario: Universidad Autónoma de Querétaro (www.uaq.mx)",
+                BackgroundColor = Color.White,
+                FontAttributes = FontAttributes.Italic,
+                XAlign = TextAlignment.Center,
+                FontSize = 19,
+                WidthRequest = 50,
+                HeightRequest = 50
             };
 
-            //foreach (String developer in developers)
-            //{
-                //Debug.WriteLine("found resource: " + developer);
-                var Desarrollador1 = new Label
-                {
-                    Text = developers[0],
-                    BackgroundColor = Color.White,
-                    //Font = Font.SystemFontOfSize(30),
-                    WidthRequest = 150,
-                    HeightRequest = 50
-                };
-                //relativeLayout.Children.Add(Desarrollador1);
-                //Debug.WriteLine("found resource: " + relativeLayout);
-            //}
+            var Author = new Label
+            {
+                Text = "Desarrollado por: Andrade's Company S.A. de C.V. (andradescompany.com.mx)",
+                BackgroundColor = Color.White,
+                FontAttributes = FontAttributes.Italic,
+                XAlign = TextAlignment.Center,
+                FontSize = 15,
+                WidthRequest = 100,
+                HeightRequest = 100
+            };
+
+            var Version = new Label
+            {
+                Text = "Version: 1.0.0.0",
+                BackgroundColor = Color.White,
+                FontSize = 15,
+                XAlign = TextAlignment.Center,
+                FontAttributes = FontAttributes.Italic,
+                WidthRequest = 50,
+                HeightRequest = 50
+            };
+
+            var Anio = new Label
+            {
+                Text = "Año: 2017",
+                BackgroundColor = Color.White,
+                FontAttributes = FontAttributes.Italic,
+                XAlign = TextAlignment.Center,
+                FontSize = 15,
+                WidthRequest = 50,
+                HeightRequest = 50
+            };
+            var Actualizacion = new Label
+            {
+                Text = "Ultima actualización: 03 de noviembre del 2017",
+                BackgroundColor = Color.White,
+                FontAttributes = FontAttributes.Italic,
+                XAlign = TextAlignment.Center,
+                FontSize = 15,
+                WidthRequest = 50,
+                HeightRequest = 50
+            };
 
             Content = new StackLayout
             {
-                Spacing = 10,
-                Children = { Author,Desarrollador1 }
+                Padding = new Thickness(30, 30, 30, 0),
+                Spacing = 12,
+                Children = {Gaceta,Propietario, Version, Author  ,Anio,Actualizacion }
             };
         }
     }

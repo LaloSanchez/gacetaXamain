@@ -13,6 +13,8 @@ namespace CPMobile.Models
 
         Task<CPFeedGalery> GetGaleryAsync();
 
+        Task<CPFeedGacetasPdf> GetGacetaPdfAsync();
+
         Task<bool> GetAccessToken(string username, string password);
 
         Task<string> GetCategorias();

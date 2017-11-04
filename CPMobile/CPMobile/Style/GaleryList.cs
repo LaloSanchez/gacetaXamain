@@ -10,23 +10,27 @@ namespace CPMobile
     {
         public GaleryList()
         {
-            
             var imagen = new Image
             {
                 
                 //Source = orders.url_galeria,
-                VerticalOptions = LayoutOptions.End,
-                HorizontalOptions = LayoutOptions.End,
+                //VerticalOptions = LayoutOptions.End,
+                //HorizontalOptions = LayoutOptions.End,
             };
             imagen.SetBinding(Image.SourceProperty, "url_imagen");
+            imagen.HeightRequest = 200;
+            imagen.HorizontalOptions = LayoutOptions.FillAndExpand;
             var labelTitulo = new Label
             {
+                XAlign = TextAlignment.Center,
                 FontSize = 20,
                 FontAttributes = FontAttributes.Bold,
             };
             labelTitulo.SetBinding(Label.TextProperty, "titulo");
             var labelDescripcion = new Label
             {
+                XAlign = TextAlignment.Center,
+                FontAttributes = FontAttributes.Italic,
                 FontSize = 10
             };
             labelDescripcion.SetBinding(Label.TextProperty, "descripcion");
@@ -34,7 +38,7 @@ namespace CPMobile
             var ContentGalery = new StackLayout
             {
                 Spacing = 0,
-                HeightRequest=5000,
+                HeightRequest=8000,
                 Children = { imagen, labelTitulo, labelDescripcion }
             };
             var scroll = new ScrollView

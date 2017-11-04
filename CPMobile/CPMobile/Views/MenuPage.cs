@@ -17,7 +17,6 @@ namespace CPMobile.Views
         {
             Icon = "menu.png";
             Title = "menu"; // The Title property must be set.
-
             this.rootPage = rootPage;
 
             //var logoutButton = new Button { Text = "Salir", TextColor=Color.White };
@@ -107,7 +106,7 @@ namespace CPMobile.Views
                     rootPage.Detail = galery;
                     break;
                 case "Anteriores":
-                    favorites = new NavigationPage(new FavoriteListPage()) { BarBackgroundColor = App.BrandColor, BarTextColor = Color.White };
+                    favorites = new NavigationPage(new GacetaPdf()) { BarBackgroundColor = App.BrandColor, BarTextColor = Color.White };
                     rootPage.Detail = favorites;
                     break;
                 case "Acerca de":

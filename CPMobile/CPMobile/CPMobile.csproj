@@ -121,6 +121,9 @@
     <Compile Include="ViewModels\CategoryPageViewModel.cs" />
     <Compile Include="ViewModels\GaleryViewModel.cs" />
     <Compile Include="Style\GaleryList.cs" />
+    <Compile Include="Style\GacetasAnteriores.cs" />
+    <Compile Include="Views\GacetaPdf.cs" />
+    <Compile Include="ViewModels\GacetaPdfViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akavache, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">

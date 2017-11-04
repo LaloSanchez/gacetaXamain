@@ -30,7 +30,7 @@ namespace CPMobile.ViewModels
 
             // termina  categorias
 
-            Title = "CodeProject";
+            Title = "";
             Icon = "icon.png";
             categoria = new CategoryViewModel();
 

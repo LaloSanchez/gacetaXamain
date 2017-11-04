@@ -23,7 +23,18 @@ namespace CPMobile.Models
     public class Galery
     {
         public int idGaleria { set; get; }
-        public string url_imagen { set; get; }
+        private string _url_imagen = string.Empty;
+        public string url_imagen
+        {
+            get
+            {
+                return _url_imagen;
+            }
+            set
+            {
+                _url_imagen = "http://189.211.201.181:75/" + value.ToString();
+            }
+        }
         public string titulo { set; get; }
         public string descripcion { set; get; }
         public string activo { set; get; }
@@ -31,6 +42,11 @@ namespace CPMobile.Models
     public class CPFeedGalery
     {
         public List<Galery> itemsGalery { get; set; }
+    }
+
+    public class CPFeedGacetasPdf
+    {
+        public List<GacetaPdf> itemsGacetasPdf { get; set; }
     }
 
     public class CPFeedCat
@@ -62,6 +78,26 @@ namespace CPMobile.Models
     {
         public string name { get; set; }
         public int id { get; set; }
+    }
+
+    public class GacetaPdf
+    {
+        public int idGacetaPdf { get; set; }
+        public string titulo { get; set; }
+
+        private string _url_pdf = string.Empty;
+        public string url_pdf
+        {
+            get
+            {
+                return _url_pdf;
+            }
+            set
+            {
+                _url_pdf = "http://189.211.201.181:75/" + value.ToString();
+            }
+        }
+        public string activo { get; set; }
     }
 
     public class Categoria

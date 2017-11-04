@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using CPMobile.Models;
 using System.Diagnostics;
+using System;
 
 namespace CPMobile.Views
 {
@@ -36,13 +37,14 @@ namespace CPMobile.Views
                 Children = { genralArticlelist  }
             };
 
-             genralArticlelist.ItemSelected += (sender, e) =>
+             genralArticlelist.ItemSelected += async (sender, e) =>
              {
                  var selectedObject = e.SelectedItem as CPMobile.Models.Item;
-                var SingleArticleView = new SingleArticleView(selectedObject);
+                 var SingleArticleView = new SingleArticleView(selectedObject);
                  //var WebViewPage = new WebViewPage("General Articles",string.Format("http:{0}",selectedObject.websiteLink));
-                Navigation.PushAsync(SingleArticleView);
-                // Navigation.PushAsync( );
+                 var newPage = new ContentPage();
+                 await Navigation.PushAsync(SingleArticleView);
+                 
              };
            
         }

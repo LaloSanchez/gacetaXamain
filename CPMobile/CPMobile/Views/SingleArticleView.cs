@@ -8,13 +8,19 @@ namespace CPMobile.Views
     {
         public SingleArticleView(CPMobile.Models.Item objArticle)
         {
+            Title = objArticle.titulo;
+            var Texto = new StackLayout {
+                Padding = new Thickness(20,5,20,0),
+                Children = {
+                    new Label { Text = objArticle.titulo,FontSize=16,XAlign = TextAlignment.Center},
+                    new Label {Text = objArticle.contenido,FontSize=12}
+                }
+            };
             Content = new StackLayout
             {
-
                 Children = {
                     new Image { Source = objArticle.url_imagen,VerticalOptions = LayoutOptions.Start},//objArticle.url_imagen },
-                    new Label { Text = objArticle.titulo,FontSize=14},
-                    new Label {Text = objArticle.contenido,FontSize=10},
+                    Texto
                 }
             };
             var scroll = new ScrollView { Content = Content };
@@ -29,6 +35,8 @@ namespace CPMobile.Views
         {
             // If you want to continue going back
             base.OnBackButtonPressed();
+            Navigation.InsertPageBefore(new RootPage(), this);
+            Navigation.PopAsync();
             return false;
 
             //// If you want to stop the back button

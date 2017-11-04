@@ -75,12 +75,12 @@ namespace CPMobile.Service
 
         public async Task<CPFeed> GetArticleAsync(int page, int cveCategoria)
         {
-            if (!initialized)
-                await Init();
-            var accessToken = Settings.AuthToken;
+            //if (!initialized)
+            //    await Init();
+            //var accessToken = Settings.AuthToken;
 
-            if (!string.IsNullOrEmpty(accessToken))
-            {
+            //if (!string.IsNullOrEmpty(accessToken))
+            //{
 
                 using (var client = new HttpClient())
                 {
@@ -89,7 +89,7 @@ namespace CPMobile.Service
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     // Add the Authorization header with the AccessToken.
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
 
                     // create the URL string.
                     string url = string.Format("api/tblnoticias/categoria/{0}", cveCategoria);
@@ -102,15 +102,15 @@ namespace CPMobile.Service
                     string jsonArmado = "{'items':" + jsonString + "}";
 
                     CPFeed responseData = JsonHelper.Deserialize<CPFeed>(jsonArmado);                    Debug.WriteLine(responseData);
-                    await BlobCache.LocalMachine.InsertObject<CPFeed>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
+                    //await BlobCache.LocalMachine.InsertObject<CPFeed>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
                     return responseData;
                 }
-            }
-            else
-            {
-                Init();
-                return null;
-            }
+            //}
+            //else
+            //{
+            //    Init();
+            //    return null;
+            //}
         }
 
         public async Task<string> GetCategorias()
@@ -130,6 +130,7 @@ namespace CPMobile.Service
                     string url = string.Format("api/tblgaleria", "");
 
                     // make the request
+
                 HttpResponseMessage response = await client.GetAsync(url);
 
                     // parse the response and return the data.
@@ -168,6 +169,36 @@ namespace CPMobile.Service
                 string jsonArmado = "{\"itemsGalery\":" + jsonString + "}";
                 Debug.WriteLine(jsonArmado);
                 CPFeedGalery responseData = JsonHelper.Deserialize<CPFeedGalery>(jsonArmado);
+                //await BlobCache.LocalMachine.InsertObject<CPFeedGalery>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
+                return responseData;
+            }
+        }
+
+        public async Task<CPFeedGacetasPdf> GetGacetaPdfAsync()
+        {
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Add the Authorization header with the AccessToken.
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
+
+                // create the URL string.
+                string url = string.Format("api/tblgacetaspdf", "");
+
+                // make the request
+                //Debug.WriteLine("url: " + url);
+                HttpResponseMessage response = await client.GetAsync(url);
+                //Debug.WriteLine("response: " + response);
+                // parse the response and return the data.
+                string jsonString = await response.Content.ReadAsStringAsync();
+                jsonString = "[{'idGacetaPdf':'1','url_pdf':'pdfs/pdfs/G056.pdf','titulo':'Comunidad Estudiantil','activo':'S'}]";
+                string jsonArmado = "{\"itemsGacetasPdf\":" + jsonString + "}";
+                //Debug.WriteLine(jsonArmado);
+                CPFeedGacetasPdf responseData = JsonHelper.Deserialize<CPFeedGacetasPdf>(jsonArmado);
                 //await BlobCache.LocalMachine.InsertObject<CPFeedGalery>("DefaultArticle", responseData, DateTimeOffset.Now.AddDays(1));
                 return responseData;
             }
